@@ -1,4 +1,5 @@
 """Placeholder"""
+from skimage.color import gray2rgb
 from scipy.stats import pearsonr
 from skimage.segmentation import mark_boundaries
 from skimage.util import img_as_int
@@ -44,9 +45,13 @@ class CoLocProcessor(object):
             c2_overlay = mark_boundaries(img_as_int(channel_2_cell), img_as_int(cell.cell_mask),
                                          color=(1, 0, 1), outline_color=None)
 
-            cell.cell_image = np.concatenate((c1_overlay,
-                                              c2_overlay),
-                                              axis=1)
+            no_mask = np.concatenate((gray2rgb(channel_1_cell), gray2rgb(channel_2_cell)), axis= 1)
+
+            with_mask = np.concatenate((c1_overlay,
+                                        c2_overlay),
+                                       axis=1)
+
+            cell.cell_image = np.concatenate((no_mask, with_mask), axis=0)
 
             cell.cell_image_overlays = np.concatenate((c1_overlay, c2_overlay), axis=1)
 
@@ -72,9 +77,13 @@ class CoLocProcessor(object):
             c2_overlay = mark_boundaries(img_as_int(channel_2_cell), img_as_int(cell.cell_mask),
                                          color=(1, 1, 0), outline_color=None)
 
-            cell.cell_image = np.concatenate((c1_overlay,
-                                              c2_overlay),
-                                              axis=1)
+            no_mask = np.concatenate((channel_1_cell, channel_2_cell), axis= 1)
+
+            with_mask = np.concatenate((c1_overlay,
+                                        c2_overlay),
+                                       axis=1)
+
+            cell.cell_image = np.concatenate((no_mask, with_mask), axis=0)
 
             channel_1_pxs = channel_1_cell * cell.cell_mask
             channel_1_pxs = channel_1_pxs.flatten()

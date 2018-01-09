@@ -21,7 +21,7 @@ class CellPicker(object):
         self.cell_ids = None
         self.cells = None
 
-         # GUI
+        # GUI
         self.main_window = tk.Tk()
         self.main_window.wm_title("Cellpicker")
 
