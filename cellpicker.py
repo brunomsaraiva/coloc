@@ -28,6 +28,12 @@ class CellPicker(object):
         self.top_frame = tk.Frame(self.main_window)
         self.top_frame.pack(fill="x")
 
+        self.label_text = tk.StringVar()
+        self.label_text.set("No Cells Selected")
+        self.count_label = tk.Label(self.top_frame,
+                                    textvariable=self.label_text)
+        self.count_label.pack()
+
         self.middle_frame = tk.Frame(self.main_window)
         self.middle_frame.pack(fill="x")
 
@@ -85,6 +91,9 @@ class CellPicker(object):
 
         cellmanager.cells = self.cells
 
+        self.total = str(len(self.cell_ids))
+        self.label_text.set(str(self.current_index+1) + " of " + self.total + " total")
+
     def show_nothing(self, x, y):
         
         return ""
@@ -96,6 +105,8 @@ class CellPicker(object):
         current_image = self.cells[self.cell_ids[self.current_index]].cell_image
 
         self.ax.imshow(current_image, cmap=cm.gray)
+        self.total = str(len(self.cell_ids))
+        self.label_text.set(str(self.current_index+1) + " of " + self.total + " total")
         self.canvas.show()
 
     def select_cell(self, state):
